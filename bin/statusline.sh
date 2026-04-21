@@ -190,6 +190,7 @@ if [ "$theme" = "light" ]; then
     pink='\033[38;2;232;85;125m'          # pink-tinted red (used by context bar)
     pink_dim='\033[38;2;205;140;155m'     # muted pink-red (brightness matched to other _dim)
     ctx_info='\033[38;2;165;168;183m'     # faded gray (between overlay0 and surface2)
+    sep_color='\033[38;2;200;204;216m'    # very pale surface0 tone — subtle separator
 else
     blue='\033[38;2;160;200;245m'
     blue_dim='\033[38;2;100;135;175m'
@@ -211,11 +212,16 @@ else
     pink='\033[38;2;240;160;180m'
     pink_dim='\033[38;2;156;104;117m'
     ctx_info='\033[38;2;115;115;118m'
+    sep_color=''                          # dark mode: rely on terminal dim attribute
 fi
 dim='\033[2m'
 reset='\033[0m'
 
-sep=" ${dim}│${reset} "
+if [ -n "$sep_color" ]; then
+    sep=" ${sep_color}│${reset} "
+else
+    sep=" ${dim}│${reset} "
+fi
 
 # ── Helpers ─────────────────────────────────────────────
 color_for_pct() {

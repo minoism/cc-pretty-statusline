@@ -1,6 +1,6 @@
 {
   "name": "cc-pretty-statusline",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An opinionated, theme-aware status line for Claude Code CLI — adaptive light/dark, cost tracking, and more",
   "bin": {
     "cc-pretty-statusline": "./bin/install.js"
