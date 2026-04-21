@@ -1,0 +1,34 @@
+{
+  "name": "cc-pretty-statusline",
+  "version": "0.1.0",
+  "description": "A pretty, theme-aware status line for Claude Code CLI — pastel colors, adaptive light/dark, cost tracking, and more",
+  "bin": {
+    "cc-pretty-statusline": "./bin/install.js"
+  },
+  "files": [
+    "bin/",
+    "README.md",
+    "LICENSE",
+    "light.png",
+    "dark.png"
+  ],
+  "scripts": {
+    "install-statusline": "node ./bin/install.js",
+    "uninstall-statusline": "node ./bin/install.js --uninstall"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "statusline",
+    "cli",
+    "theme",
+    "dark-mode",
+    "light-mode"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minoism/cc-pretty-statusline.git"
+  },
+  "license": "MIT",
+  "author": "Mino <justmino@outlook.com>"
+}
