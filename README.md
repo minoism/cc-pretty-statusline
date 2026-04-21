@@ -117,6 +117,8 @@ Only captures the initial state — for mid-session toggles use
 Forked and substantially rewritten from
 [kamranahmedse/claude-statusline](https://github.com/kamranahmedse/claude-statusline).
 
+Shared with the [LINUXDO](https://linux.do/) community.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
