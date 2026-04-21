@@ -1,10 +1,10 @@
 # cc-pretty-statusline
 
-A pretty, theme-aware status line for [Claude Code](https://claude.com/claude-code) CLI.
+An opinionated, theme-aware status line for [Claude Code](https://claude.com/claude-code) CLI.
 
-Pastel palette tuned for both dark and light terminals, automatic theme
-detection, session cost tracking, usage bars, and honest respect for
-`CLAUDE_CONFIG_DIR` so multi-account setups don't cross-contaminate.
+Automatic light/dark detection, session cost tracking, usage bars, and
+honest respect for `CLAUDE_CONFIG_DIR` so multi-account setups don't
+cross-contaminate.
 
 <p align="center">
   <img src="light.png" alt="Light palette preview" width="48%">
