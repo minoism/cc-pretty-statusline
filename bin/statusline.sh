@@ -597,19 +597,26 @@ if command -v ccusage >/dev/null 2>&1; then
     fi
 
     if $cost_needs_refresh; then
-        if [ ! -f "$cost_cache" ]; then
-            # First miss: foreground with timeout so first render shows a value
-            ccusage_raw=$(perl -e 'alarm shift; exec @ARGV' 8 ccusage daily --json --offline 2>/dev/null)
-            if [ -n "$ccusage_raw" ]; then
-                printf "%s" "$ccusage_raw" \
-                    | jq -r "$ccusage_query" 2>/dev/null \
-                    | awk -F: '{printf "%.2f:%.2f", $1, $2}' > "$cost_cache" 2>/dev/null
-            fi
-        else
-            # Subsequent refresh: background, never block rendering
-            (ccusage daily --json --offline 2>/dev/null \
-                | jq -r "$ccusage_query" \
-                | awk -F: '{printf "%.2f:%.2f", $1, $2}' > "$cost_cache") &
+        # Always refresh in the background so rendering never blocks on
+        # ccusage — its full-history JSONL scan can take 8+ seconds even in
+        # --offline mode, far longer than a statusline render budget. The
+        # tradeoff: the very first render after install shows no cost line;
+        # the next render (after the background job finishes) picks it up.
+        # A lockfile prevents multiple stale renders from spawning piles of
+        # concurrent ccusage processes.
+        #
+        # Online mode (no --offline) is required so newly released model ids
+        # price correctly — offline silently underprices anything missing
+        # from its bundled table (opus-4-7 1M was charged ~70x low).
+        cost_lock="${cost_cache}.lock"
+        if mkdir "$cost_lock" 2>/dev/null; then
+            (
+                trap 'rmdir "$cost_lock" 2>/dev/null' EXIT
+                ccusage daily --json 2>/dev/null \
+                    | jq -r "$ccusage_query" \
+                    | awk -F: '{printf "%.2f:%.2f", $1, $2}' > "${cost_cache}.tmp" \
+                    && mv "${cost_cache}.tmp" "$cost_cache"
+            ) >/dev/null 2>&1 &
         fi
     fi
 
